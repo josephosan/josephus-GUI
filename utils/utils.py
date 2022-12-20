@@ -1,4 +1,6 @@
 import math
+from GUI.Soldier import Soldier
+import math
 
 
 def binary_to_decimal(number):
@@ -12,3 +14,45 @@ def decimal_to_binary(number):
 def highest_power_of_2(n):
     p = int(math.log(n, 2))
     return int(pow(2, p))
+
+
+def main_circle(number, create_circle, create_text, window_data: dict) -> Soldier:
+    root = Soldier(data="root")
+    current = root
+
+    try:
+        window_height = int(window_data["window_height"])
+        window_width = int(window_data["window_width"])
+    except:
+        raise Exception("window_width and height should be integer.")
+
+    circle_o_x = (window_width / 2)
+    circle_o_y = (window_height / 2)
+
+    circle_r = 270  # 200 px
+    # then the first element should be on (circle_o - circle_r) position
+    chop_radian = (2 * math.pi) / number
+    angle = 0
+    for i in range(number):
+        x = circle_o_x + circle_r * math.sin(angle)
+        y = circle_o_y - circle_r * math.cos(angle)
+        small_circle = create_circle(x-8, y-8, x+8, y+8, fill="blue")
+        text = create_text(x, y, text=i + 1, fill="white")
+        angle += chop_radian
+
+        small_circle_data = {
+            "data": small_circle,
+            "number": text
+        }
+        newSoldier = Soldier(data=small_circle_data)
+        current.after = newSoldier
+        current = current.after
+
+    root = root.after
+    current = root
+    while current.after:
+        current = current.after
+
+    current.after = root
+
+    return root
