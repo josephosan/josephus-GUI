@@ -1,5 +1,5 @@
 # josephus-GUI
-Solving josephus problem with GUI, for more information about josephus problem please visit <a href="https://en.wikipedia.org/wiki/Josephus_problem" target="_blank">this</a> page..
+Solving josephus problem with GUI, for more information about josephus problem please visit <a href="https://en.wikipedia.org/wiki/Josephus_problem" target="_blank">this</a> page.
 
 # Run 
 ``` 
