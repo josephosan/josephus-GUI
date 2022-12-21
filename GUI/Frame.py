@@ -6,14 +6,20 @@ import time as t
 
 class MyFrame:
     def __init__(self):
+        self.winning_sit = None
+        self.run_loop_btn = None
         self.number = None
+        self.current = None
+        self.canvas = None
+        self.kill_btn = None
+        self.kill_all_btn = None
 
         root = tk.Tk()
         self.root = root
 
         root.title("Josephus problem")
         root.minsize(300, 200)
-        root.geometry("800x700+350+10")
+        root.geometry("800x720+350+10")
 
         # input label:
         self.entry_label = tk.Label(text="Enter you Number: ")
@@ -66,8 +72,13 @@ class MyFrame:
         self.kill_btn = tk.Button(text="Kill", command=self.kill_next)
         self.kill_btn.pack()
 
+        self.kill_all_btn = tk.Button(text="Kill all", command=self.kill_all)
+        self.kill_all_btn.pack()
+
     def kill_next(self):
-        if self.current.after == self.current.after.after: return
+        if self.current.after == self.current.after.after:
+            self.canvas.itemconfig(self.current.after.data["data"], fill="green")
+            return
         self.canvas.itemconfig(self.current.data["data"], fill="green")
         self.canvas.itemconfig(self.current.after.data["data"], fill="red")
         self.canvas.itemconfig(self.current.after.after.data["data"], fill="black")
@@ -75,3 +86,12 @@ class MyFrame:
         self.current.after = self.current.after.after
         self.current = self.current.after
 
+    def kill_all(self):
+        for i in range(self.number):
+            self.kill_next()
+            self.tkSleep(.7)
+
+    def tkSleep(self, time: float) -> None:
+
+        self.root.after(int(time * 1000), self.root.quit)
+        self.root.mainloop()

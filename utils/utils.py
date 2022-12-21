@@ -17,6 +17,8 @@ def highest_power_of_2(n):
 
 
 def main_circle(number, create_circle, create_text, window_data: dict) -> Soldier:
+    small_circle_r = 70/math.sqrt(number)
+
     root = Soldier(data="root")
     current = root
 
@@ -27,7 +29,7 @@ def main_circle(number, create_circle, create_text, window_data: dict) -> Soldie
         raise Exception("window_width and height should be integer.")
 
     circle_o_x = (window_width / 2)
-    circle_o_y = (window_height / 2)
+    circle_o_y = (window_height / 2)-15
 
     circle_r = 270  # 200 px
     # then the first element should be on (circle_o - circle_r) position
@@ -36,7 +38,7 @@ def main_circle(number, create_circle, create_text, window_data: dict) -> Soldie
     for i in range(number):
         x = circle_o_x + circle_r * math.sin(angle)
         y = circle_o_y - circle_r * math.cos(angle)
-        small_circle = create_circle(x-8, y-8, x+8, y+8, fill="blue")
+        small_circle = create_circle(x-small_circle_r, y-small_circle_r, x+small_circle_r, y+small_circle_r, fill="blue")
         text = create_text(x, y, text=i + 1, fill="white")
         angle += chop_radian
 
