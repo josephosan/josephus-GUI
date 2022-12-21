@@ -1,5 +1,6 @@
 import math
 from GUI.Soldier import Soldier
+from config.config import small_circle_R, big_circle_R
 import math
 
 
@@ -17,7 +18,7 @@ def highest_power_of_2(n):
 
 
 def main_circle(number, create_circle, create_text, window_data: dict) -> Soldier:
-    small_circle_r = 70/math.sqrt(number)
+    small_circle_r = small_circle_R(number)
 
     root = Soldier(data="root")
     current = root
@@ -31,7 +32,7 @@ def main_circle(number, create_circle, create_text, window_data: dict) -> Soldie
     circle_o_x = (window_width / 2)
     circle_o_y = (window_height / 2)-15
 
-    circle_r = 270  # 200 px
+    circle_r = big_circle_R()  # 200 px
     # then the first element should be on (circle_o - circle_r) position
     chop_radian = (2 * math.pi) / number
     angle = 0

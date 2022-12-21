@@ -1,7 +1,7 @@
 import tkinter as tk
 from logic.survivingPosition import survivor_number_binary
 from utils.utils import main_circle
-import time as t
+from config.config import project_title
 
 
 class MyFrame:
@@ -17,7 +17,7 @@ class MyFrame:
         root = tk.Tk()
         self.root = root
 
-        root.title("Josephus problem")
+        root.title(project_title)
         root.minsize(300, 200)
         root.geometry("800x720+350+10")
 
