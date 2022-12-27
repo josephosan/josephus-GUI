@@ -1,8 +1,8 @@
-from GUI.Frame import MyFrame
+from GUI.Frame import MainFrame
 
 
 def main():
-    app = MyFrame()
+    app = MainFrame()
 
 
 main()
