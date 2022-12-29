@@ -7,6 +7,7 @@ from config.config import killing_speed
 
 class MainFrame:
     def __init__(self):
+        self.k = None
         self.reload_btn = None
         self.win_text = None
         self.win_window = None
@@ -26,7 +27,7 @@ class MainFrame:
         self.photo_icon_cup = tk.PhotoImage(file="assets/trophy.png")
         root.title("Josephus problem")
         root.minsize(300, 200)
-        root.geometry("800x720+350+10")
+        root.geometry("800x750+350+10")
         root.iconphoto(False, photo_icon_circle)
         # root.configure(bg=background_color)
 
@@ -34,13 +35,21 @@ class MainFrame:
         self.null_text = tk.Label(text="\n", font=("Times", 50))
         self.null_text.pack()
 
-        self.entry_label = tk.Label(text="Enter you Number: ", foreground=text_color, font=("Times", 24), pady=10)
+        self.entry_label = tk.Label(text="Enter the N: ", foreground=text_color, font=("Times", 24), pady=10)
         self.entry_label.pack()
 
         # entry for number:
         self.number_entry = tk.Entry(justify="center", bg=input_bg_color, width=30, borderwidth=10, relief=tk.FLAT,
                                      font=("Times", 15))
         self.number_entry.pack()
+
+        self.K_label = tk.Label(text="Enter the K: ", foreground=text_color, font=("Times", 24), pady=10)
+        self.K_label.pack()
+
+        # entry for number:
+        self.K_entry = tk.Entry(justify="center", bg=input_bg_color, width=30, borderwidth=10, relief=tk.FLAT,
+                                font=("Times", 15))
+        self.K_entry.pack()
 
         # button:
         ok_image = tk.PhotoImage(file="assets/checked.png")
@@ -52,6 +61,7 @@ class MainFrame:
     def view_result(self):
         try:
             self.number = int(self.number_entry.get())
+            self.k = int(self.K_entry.get())
         except:
             raise Exception("Enter a valid number.")
 
@@ -62,6 +72,8 @@ class MainFrame:
         self.start_button.destroy()
         self.number_entry.destroy()
         self.entry_label.destroy()
+        self.K_entry.destroy()
+        self.K_label.destroy()
 
         winning_sit = survivor_number_binary(self.number)
 
@@ -83,13 +95,15 @@ class MainFrame:
 
         self.current = main_circle(self.number, self.canvas.create_oval, self.canvas.create_text, window_data)
 
-        self.kill_btn = tk.Button(text="Kill", command=self.kill_next, borderwidth=0)
+        self.kill_btn = tk.Button(text="Kill", command=lambda: self.kill_next(int(self.k)), borderwidth=0)
         self.kill_btn.pack()
 
         self.kill_all_btn = tk.Button(text="Kill all", command=self.kill_all, borderwidth=0)
         self.kill_all_btn.pack()
 
-    def kill_next(self):
+    def kill_next(self, k: int):
+        for i in range(k-1):
+            self.current = self.current.after
         if self.current.after == self.current.after.after:
             self.canvas.itemconfig(self.current.after.data["data"], fill="green")
             self.kill_btn.destroy()
@@ -107,7 +121,7 @@ class MainFrame:
         self.kill_all_btn["state"] = "disable"
         self.kill_btn["state"] = "disable"
         for i in range(self.number):
-            self.kill_next()
+            self.kill_next(self.k)
             self.tkSleep(killing_speed(self.number))
 
     def tkSleep(self, time: float) -> None:
