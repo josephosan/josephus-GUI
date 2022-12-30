@@ -16,7 +16,7 @@ def highest_power_of_2(n):
     return int(pow(2, p))
 
 
-def main_circle(number, create_circle, create_text, window_data: dict) -> Soldier:
+def main_circle(number, create_image, create_text, window_data: dict, man_image) -> Soldier:
     small_circle_r = 70 / math.sqrt(number)
 
     root = Soldier(data="root")
@@ -38,9 +38,12 @@ def main_circle(number, create_circle, create_text, window_data: dict) -> Soldie
     for i in range(number):
         x = circle_o_x + circle_r * math.sin(angle)
         y = circle_o_y - circle_r * math.cos(angle)
-        small_circle = create_circle(x - small_circle_r, y - small_circle_r, x + small_circle_r, y + small_circle_r,
-                                     fill="blue")
-        text = create_text(x, y, text=i + 1, fill="white")
+        small_circle = create_image(x, y, image=man_image)
+        if number < 30:
+            text = create_text(x+1, y, text=i + 1, font=('courier', 15, 'bold'), fill="green")
+        else:
+            text = create_text(x + 1, y, text=i + 1, font=('courier', 1, 'bold'), fill="green")
+
         angle += chop_radian
 
         small_circle_data = {
