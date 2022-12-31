@@ -1,5 +1,4 @@
 from utils.utils import decimal_to_binary, binary_to_decimal, highest_power_of_2
-from collections import deque
 
 
 def survivor_number_binary(population):  # works for only k == 2
@@ -41,3 +40,6 @@ def survivor_number_any_k(n, kth):
         survivedLastRound = survived
 
     return soldiers[0]
+
+
+

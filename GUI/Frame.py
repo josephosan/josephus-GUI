@@ -1,13 +1,16 @@
+import time
 import tkinter as tk
 from logic.survivingPosition import survivor_number_binary
 from utils.utils import main_circle
-from config.config import background_color, input_bg_color, text_color
+from config.config import input_bg_color, text_color
 from config.config import killing_speed, man_size, killed_size
 from PIL import Image, ImageTk
 
 
 class MainFrame:
     def __init__(self):
+        self.k_error_label = None
+        self.error_label = None
         self.man_image = None
         self.winner_sit_label = None
         self.winner_pos = None
@@ -73,6 +76,24 @@ class MainFrame:
         if self.number <= 0 or self.k <= 0:
             return
 
+        if self.number > 120:
+            self.error_label = tk.Label(text=str(self.number) + " is too large!", foreground="red", font=("Times", 10))
+            self.error_label.pack()
+            self.start_button["state"] = tk.DISABLED
+            self.tkSleep(2)
+            self.start_button["state"] = tk.NORMAL
+            self.error_label.destroy()
+            return
+
+        if self.k > self.number:
+            self.k_error_label = tk.Label(text="K can't be more than N!", foreground="red", font=("Times", 10))
+            self.k_error_label.pack()
+            self.start_button["state"] = tk.DISABLED
+            self.tkSleep(2)
+            self.start_button["state"] = tk.NORMAL
+            self.k_error_label.destroy()
+            return
+            
         # kill all elements and reBuild the frame:
         self.start_button.destroy()
         self.number_entry.destroy()
@@ -120,7 +141,7 @@ class MainFrame:
 
     def kill_next(self, k: int):
         self.kill_all_btn.destroy()
-        for i in range(k - 1):
+        for i in range(k - 2):
             self.current = self.current.after
         if self.current.after == self.current.after.after:
             # self.canvas.itemconfig(self.current.after.data["data"], image=self.killed_man)
